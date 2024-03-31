@@ -12,7 +12,7 @@
 	<artifactId>Healthcare</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Healthcare</name>
-	<description>TurbonFinn Healthcare Project</description>
+	<description>TurboFinn Healthcare Project</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
@@ -23,9 +23,12 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jersey</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
