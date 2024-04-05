@@ -1,10 +1,13 @@
 package com.turbofinn.service;
 
+import com.turbofinn.common.ValidationUtils;
 import com.turbofinn.entities.OpsUserEntity;
 import com.turbofinn.model.HelloWorld;
 import com.turbofinn.model.OpsUserRequest;
 import com.turbofinn.model.UserLoginRequest;
 import com.turbofinn.repository.OpsUserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +17,8 @@ import java.util.List;
 
 @Component
 public class RestServiceImpl implements RestService {
+
+    private static final Logger logger = LoggerFactory.getLogger(RestServiceImpl.class);
 
     @Autowired
     private OpsUserRepository opsUserRepository;
@@ -29,15 +34,27 @@ public class RestServiceImpl implements RestService {
 
     @Override
     public ResponseEntity<?> createOpsUser(OpsUserRequest opsUserRequest) {
-        OpsUserEntity transaction = null;
         try {
-            transaction = new OpsUserEntity(null, opsUserRequest.getName(),opsUserRequest.getEmail(), opsUserRequest.getMobileNo(),opsUserRequest.getDesignation(), opsUserRequest.getPassword());
+            // Validate mobile number
+            if (!ValidationUtils.isValidMobileNumber(opsUserRequest.getMobileNo())) {
+                logger.info("Invalid mobile number: {}", opsUserRequest.getMobileNo());
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Mobile number must be 10 digits.");
+            }
+
+            // Validate email
+            if (!ValidationUtils.isValidEmail(opsUserRequest.getEmail())) {
+                logger.info("Invalid email format: {}", opsUserRequest.getEmail());
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid email format.");
+            }
+
+            OpsUserEntity transaction = new OpsUserEntity(null, opsUserRequest.getName(), opsUserRequest.getEmail(), opsUserRequest.getMobileNo(), opsUserRequest.getDesignation(), opsUserRequest.getPassword());
             transaction = opsUserRepository.save(transaction);
             return ResponseEntity.status(HttpStatus.CREATED).body(transaction);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create user: " + e.getMessage());
         }
     }
+
 
     @Override
     public ResponseEntity<?> loginNow(UserLoginRequest loginRequest) {

@@ -1,6 +1,7 @@
 package com.turbofinn.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,14 +25,17 @@ public class OpsUserEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID opsId;
 
+    @Size(min = 1, max = 100, message = "Invalid Name")
     private String name;
 
     private String email;
 
     private String mobileNo;
 
+    @Size(min = 1, max = 100, message = "Invalid Designation")
     private String designation;
 
+    @Size(min = 1, max = 4, message = "Invalid Password")
     private String password;
 
     @CreatedDate
