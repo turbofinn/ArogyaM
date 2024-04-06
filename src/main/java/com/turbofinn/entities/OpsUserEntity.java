@@ -17,8 +17,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @Table(name = "ops_user_tb")
-//,
-//        indexes = {@Index(name = "mobileNo_index", columnList = "mobileNo"
+//indexes = {@Index(name = "mobileNo_index", columnList = "mobileNo"
 public class OpsUserEntity {
 
     @Id

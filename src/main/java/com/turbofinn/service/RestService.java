@@ -1,6 +1,7 @@
 package com.turbofinn.service;
 
 import com.turbofinn.model.*;
+import jakarta.ws.rs.core.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,14 +12,17 @@ import java.util.List;
 public interface RestService {
 
     @GetMapping("/hello")
-    public ResponseEntity<?> getQuickHello(@RequestParam(value = "name", defaultValue = "world") String name);
+    public Response getQuickHello(@RequestParam(value = "name", defaultValue = "world") String name);
 
     @PostMapping("/createOpsUser")
-    public ResponseEntity<?> createOpsUser(@RequestBody OpsUserRequest opsUserRequest);
+    public Response createOpsUser(@RequestBody OpsUserRequest opsUserRequest);
 
     @PostMapping("/loginnow")
-    public ResponseEntity<?> loginNow(@RequestBody UserLoginRequest loginRequest);
+    public Response loginNow(@RequestBody UserLoginRequest loginRequest);
 
     @GetMapping("/opsUsers")
-    public ResponseEntity<?> getAllOpsUsers();
+    public Response getAllOpsUsers();
+
+    @PostMapping("/createPatient")
+    public Response createPatient(@RequestBody CreatePatientRequest createPatientRequest);
 }
